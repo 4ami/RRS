@@ -4,6 +4,9 @@ import morgan from 'morgan';
 import authRouter from './routes/auth.js';
 import authorize from './helper/token-algorithm.js'
 import dotenv from 'dotenv';
+import menuRouter from './routes/menu.js';
+import tableRouter from './routes/tables.js';
+
 dotenv.config();
 const app = express();
 app.use(bodyParser.json());
@@ -13,6 +16,8 @@ app.use(morgan('dev')); // morgan in development mode
  * @API_ROUTES
  */
 app.use('/auth/user', authRouter);
+app.use('/menu', menuRouter);
+app.use('/tables', tableRouter);
 
 app.get('/', authorize.verifyToken, (req,res)=>{
     res.send(
