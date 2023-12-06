@@ -6,6 +6,8 @@ const DB = {
     database: process.env.DB,
     port: process.env.DB_PORT,
     dialect: "mysql",
+    sync: {force: false},
+    define: {freezeTableName: true},
     pool: {
         max: 5,
         min: 0,
