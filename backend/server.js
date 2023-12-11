@@ -6,6 +6,7 @@ import authorize from './helper/token-algorithm.js'
 import dotenv from 'dotenv';
 import menuRouter from './routes/menu.js';
 import tableRouter from './routes/tables.js';
+import reservationRouter from './routes/reservation.js'
 
 dotenv.config();
 const app = express();
@@ -18,6 +19,7 @@ app.use(morgan('dev')); // morgan in development mode
 app.use('/auth/user', authRouter);
 app.use('/menu', menuRouter);
 app.use('/tables', tableRouter);
+app.use('/reservation', reservationRouter);
 
 app.get('/', authorize.verifyToken, (req,res)=>{
     res.send(

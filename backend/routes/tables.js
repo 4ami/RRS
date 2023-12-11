@@ -4,5 +4,4 @@ const router = express.Router();
 
 router.get('/', tableController.getAllTables);
 
-
 export default router;

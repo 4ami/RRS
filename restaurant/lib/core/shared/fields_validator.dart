@@ -9,24 +9,44 @@ class Validators {
 
   static String? phoneNumberValidator(String? value) {
     if (value == null || value.isEmpty) {
-      return '';
+      return 'Required Field';
     }
 
     if (_sqlI.hasMatch(value)) {
-      return '';
+      return 'Invalid entry';
     }
 
     if (value[0] != '5') {
-      return '';
+      return 'Phone must start with \'5\'';
     }
 
     if (value.length < 9) {
-      return '';
+      return 'Phone must be 9 digits';
     }
 
     if (!_phone.hasMatch(value)) {
-      return '';
+      return 'Invalid Phone number';
     }
+    return null;
+  }
+
+  static String? partySizeValidator(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Required Field';
+    }
+
+    if (_sqlI.hasMatch(value)) {
+      return 'Invalid entry';
+    }
+
+    if (int.tryParse(value) == null) {
+      return 'Invalid entry';
+    }
+
+    if (!_phone.hasMatch(value)) {
+      return 'Invalid entry';
+    }
+
     return null;
   }
 

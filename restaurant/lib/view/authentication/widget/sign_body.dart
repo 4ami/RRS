@@ -144,7 +144,7 @@ class _SignBodyState extends State<SignBody> {
 
             //This is only for designing Loading animation when request submitted.
             /**
-             * Writtent by -> @Dev-K0 
+             * Written by -> @Dev-K0 
              */
             BlocBuilder<SignInBloc, SignInState>(
               builder: (context, state) {

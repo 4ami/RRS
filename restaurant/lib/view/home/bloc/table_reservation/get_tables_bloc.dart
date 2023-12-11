@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:restaurant/data/models/table.dart';
-import 'package:restaurant/data/repositories/table_reservation_reository.dart';
+import 'package:restaurant/data/repositories/table_reservation_repository.dart';
 import 'package:restaurant/view/home/bloc/table_reservation/get_tables_state.dart';
 import 'package:restaurant/view/home/bloc/table_reservation/table_reservation_event.dart';
 import 'package:restaurant/view/home/bloc/table_reservation/table_reservation_state.dart';

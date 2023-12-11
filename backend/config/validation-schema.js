@@ -13,6 +13,15 @@ const authSchemaSignIN = Joi.object({
     password: Joi.string().min(2).required()
 });
 
-const menuSchema = [];
+const reserveSchema = Joi.object({
+    customer_phone: Joi.string().required(),
+    table_id: Joi.string().required(),
+    party_size: Joi.number().required(),
+    reservation_date: Joi.date().required()
+});
 
-export default { authSchema, authSchemaSignIN , menuSchema };
+const manageSchema = Joi.object({
+    reservation_id: Joi.string().min(4).required()
+});
+
+export default { authSchema, authSchemaSignIN , reserveSchema, manageSchema};

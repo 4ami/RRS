@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:restaurant/core/shared/constants.dart';
+import 'package:restaurant/core/shared/error_response.dart';
 import 'package:restaurant/core/shared/loading.dart';
-import 'package:restaurant/data/models/table.dart';
-import 'package:restaurant/data/repositories/table_reservation_reository.dart';
+import 'package:restaurant/data/repositories/table_reservation_repository.dart';
 import 'package:restaurant/view/home/bloc/table_reservation/get_tables_bloc.dart';
 import 'package:restaurant/view/home/bloc/table_reservation/get_tables_state.dart';
 import 'package:restaurant/view/home/bloc/table_reservation/table_reservation_event.dart';
 import 'package:restaurant/view/home/bloc/table_reservation/table_reservation_state.dart';
+import 'package:restaurant/view/home/widget/table_card.dart';
 
 class TableReservation extends StatelessWidget {
   const TableReservation({super.key});
@@ -54,28 +54,7 @@ class _BodyState extends State<Body> {
         child: BlocBuilder<GetTablesBloc, GetTablesState>(
           builder: (context, state) {
             if (state.tableState is FailedGETTablesState) {
-              return Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Image(
-                      image: AssetImage(errorIllustration),
-                      height: 250,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 18.0),
-                      child: Text(
-                        "${state.tableState.message} 😭.",
-                        style: Theme.of(context)
-                            .textTheme
-                            .headlineSmall!
-                            .copyWith(fontSize: 25),
-                        textAlign: TextAlign.center,
-                      ),
-                    )
-                  ],
-                ),
-              );
+              return ErrorResponse(message: state.tableState.message);
             } else if (state.tableState is SuccessfulGETTablesState) {
               return GridView.builder(
                 padding:
@@ -93,61 +72,6 @@ class _BodyState extends State<Body> {
               return const Loading();
             }
           },
-        ),
-      ),
-    );
-  }
-}
-
-class TableCard extends StatelessWidget {
-  const TableCard({super.key, required this.table});
-  final Tables table;
-  @override
-  Widget build(BuildContext context) {
-    bool isAvailable = table.availability == "Available" ? true : false;
-    bool isInside = table.location == 'Inside' ? true : false;
-    return GestureDetector(
-      onTap: isAvailable ? () {} : null,
-      child: Badge(
-        backgroundColor: isAvailable ? Colors.greenAccent : Colors.redAccent,
-        label: Text(table.availability),
-        offset: Offset(isAvailable ? -50 : -60, 5),
-        child: Container(
-          height: 200,
-          width: 200,
-          decoration: BoxDecoration(
-            color: const Color(0xffFFF2F2),
-            borderRadius: BorderRadius.circular(20),
-            boxShadow: [
-              BoxShadow(
-                color: const Color(0xff57C5B6).withOpacity(.5),
-                offset: const Offset(-1, 6),
-                blurRadius: 10,
-              ),
-            ],
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image(
-                height: 130,
-                image: AssetImage(isInside ? insideTable : outsideTable),
-                filterQuality: FilterQuality.high,
-              ),
-              // const SizedBox(height: 10),
-              Text(
-                'Table Number: ${table.tableNumber}',
-                style: Theme.of(context).textTheme.bodySmall,
-              ),
-              Text(
-                'Location: ${table.location}',
-                style: Theme.of(context)
-                    .textTheme
-                    .bodySmall!
-                    .copyWith(fontSize: 16),
-              ),
-            ],
-          ),
         ),
       ),
     );
