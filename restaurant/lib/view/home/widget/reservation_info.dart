@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:restaurant/data/models/reservation_detail.dart';
+import 'package:restaurant/view/home/bloc/table_reservation/delete_reservation/delete_reservation_bloc.dart';
+import 'package:restaurant/view/home/bloc/table_reservation/table_reservation_event.dart';
 
 class ReservationInformation extends StatelessWidget {
-  const ReservationInformation({
-    super.key,
-    required this.detail
-  });
+  const ReservationInformation({super.key, required this.detail});
   final ReservationDetail detail;
 
   @override
@@ -34,11 +35,13 @@ class ReservationInformation extends StatelessWidget {
                   text: "Reservation Status: ",
                   children: [
                     TextSpan(
-                      text: "Confirmed",
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodySmall!
-                          .copyWith(color: Colors.green),
+                      text: detail.reservationStatus,
+                      style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                          color: detail.reservationStatus == "Confirmed"
+                              ? Colors.green
+                              : detail.reservationStatus == "Rejected"
+                                  ? Colors.redAccent
+                                  : Colors.amber),
                     ),
                   ],
                 ),
@@ -50,7 +53,7 @@ class ReservationInformation extends StatelessWidget {
                 text: "Table Number: ",
                 children: [
                   TextSpan(
-                    text: "4",
+                    text: detail.table.tableNumber.toString(),
                     style: Theme.of(context).textTheme.bodySmall,
                   ),
                 ],
@@ -63,7 +66,7 @@ class ReservationInformation extends StatelessWidget {
                 text: "Party Size: ",
                 children: [
                   TextSpan(
-                    text: "4",
+                    text: detail.reservation.parySize.toString(),
                     style: Theme.of(context).textTheme.bodySmall,
                   ),
                 ],
@@ -77,7 +80,12 @@ class ReservationInformation extends StatelessWidget {
                 text: "Reservation Date and Time:\n",
                 children: [
                   TextSpan(
-                    text: "2023-10-18 04:14:00",
+                    text: detail.reservation.reservationDate.substring(0, 10),
+                    style: Theme.of(context).textTheme.bodySmall,
+                  ),
+                  TextSpan(
+                    text:
+                        " ${detail.reservation.reservationDate.substring(11, 16)}",
                     style: Theme.of(context).textTheme.bodySmall,
                   ),
                 ],
@@ -100,7 +108,7 @@ class ReservationInformation extends StatelessWidget {
                       .bodySmall!
                       .copyWith(color: Colors.white),
                 ),
-                onPressed: () {},
+                onPressed: () => context.push('/modify-reservation', extra: detail),
               ),
             ),
             const SizedBox(height: 20),
@@ -112,13 +120,17 @@ class ReservationInformation extends StatelessWidget {
                   backgroundColor: MaterialStatePropertyAll(Colors.redAccent),
                 ),
                 child: Text(
-                  "Modify Reservation",
+                  "Delete Reservation",
                   style: Theme.of(context)
                       .textTheme
                       .bodySmall!
                       .copyWith(color: Colors.white),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  context
+                      .read<DeleteReservationBloc>()
+                      .add(DeleteReservationEvent(id: detail.id));
+                },
               ),
             ),
           ],

@@ -1,28 +1,20 @@
-import 'package:restaurant/data/models/new_reservation.dart';
-import 'package:restaurant/data/models/table.dart';
+import 'package:restaurant/data/models/reservation_detail.dart';
 import 'package:restaurant/view/home/bloc/table_reservation/table_reservation_state.dart';
 
 class GetReservationInfo {
-  final Tables? table;
-  final NewReservation? reservation;
-  final String reservationStatus;
+  final ReservationDetail? detail;
   final TableReservationState state;
+  final String id;
 
   const GetReservationInfo(
-      {this.table,
-      this.reservation,
-      this.reservationStatus = '',
-      this.state = const InitialGetReservation()});
+      {this.detail, this.state = const InitialGetReservation(), this.id = ''});
 
   GetReservationInfo copyWith(
-          {String? status,
-          Tables? table,
-          NewReservation? reservation,
-          TableReservationState? state}) =>
+          {ReservationDetail? detail,
+          TableReservationState? state,
+          String? id}) =>
       GetReservationInfo(
-        table: table ?? this.table,
-        reservation: reservation ?? this.reservation,
-        reservationStatus: status ?? reservationStatus,
-        state: state ?? this.state,
-      );
+          detail: detail ?? this.detail,
+          state: state ?? this.state,
+          id: id ?? this.id);
 }

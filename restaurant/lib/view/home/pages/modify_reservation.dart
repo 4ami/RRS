@@ -1,39 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:restaurant/business/repositories/table_reservation_repository.dart';
 import 'package:restaurant/core/shared/constants.dart';
 import 'package:restaurant/core/shared/fields_validator.dart';
 import 'package:restaurant/core/shared/loading.dart';
-import 'package:restaurant/data/models/table.dart';
-import 'package:restaurant/view/home/bloc/table_reservation/new_reservation/reserve_bloc.dart';
-import 'package:restaurant/view/home/bloc/table_reservation/new_reservation/reserve_table_state.dart';
+import 'package:restaurant/data/models/reservation_detail.dart';
+import 'package:restaurant/data/repositories/update_repo.dart';
 import 'package:restaurant/view/home/bloc/table_reservation/table_reservation_event.dart';
 import 'package:restaurant/view/home/bloc/table_reservation/table_reservation_state.dart';
+import 'package:restaurant/view/home/bloc/table_reservation/update_reservation/update_bloc.dart';
+import 'package:restaurant/view/home/bloc/table_reservation/update_reservation/update_state.dart';
 import 'package:restaurant/view/home/widget/failed.dart';
-import 'package:restaurant/view/home/widget/success.dart';
-import 'package:restaurant/view/home/widget/table_information.dart';
 import 'package:restaurant/view/home/widget/table_reservation_textfield.dart';
+import 'package:restaurant/view/home/widget/update_success.dart';
 
-class ReserverTable extends StatelessWidget {
-  const ReserverTable({super.key, required this.table});
-
-  final Tables table;
+class ModifyReservation extends StatelessWidget {
+  const ModifyReservation({super.key, required this.detail});
+  final ReservationDetail detail;
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => NewReservationBloc(
-        reservationRepo: context.read<CreateReservation>(),
-      ),
-      child: Body(table: table),
-    );
+        create: (context) => UpdateReservationBloc(
+            updateRepo: context.read<UpdateReservationRepo>()),
+        child: Body(detail: detail));
   }
 }
 
 class Body extends StatefulWidget {
-  const Body({super.key, required this.table});
-  final Tables table;
+  const Body({super.key, required this.detail});
 
+  final ReservationDetail detail;
   @override
   State<Body> createState() => _BodyState();
 }
@@ -58,7 +54,7 @@ class _BodyState extends State<Body> {
           toolbarHeight: 80,
           centerTitle: true,
           title: Text(
-            'Table Number: ${widget.table.tableNumber}',
+            'Table Number: ${widget.detail.table.tableNumber}',
             style: Theme.of(context)
                 .textTheme
                 .headlineSmall!
@@ -69,7 +65,7 @@ class _BodyState extends State<Body> {
           children: [
             ListView(
               children: [
-                TableInformation(table: widget.table),
+                // TableInformation(table: widget.table),
                 const SizedBox(height: 50),
                 Text(
                   "Reservation Form",
@@ -206,22 +202,13 @@ class _BodyState extends State<Body> {
                                 // send date to back-end
                                 final String dateTime =
                                     "${date!.year}-${date!.month}-${date!.day} ${time!.hour}:${time!.minute}:00Z";
-                                context.read<NewReservationBloc>().add(
-                                    CustomerPhoneChange(
+
+                                context.read<UpdateReservationBloc>().add(
+                                    UpdateReservationEvent(
+                                        partySize: int.parse(_partySize.text),
+                                        id: widget.detail.id,
+                                        dateTime: dateTime,
                                         phone: "+966${_phone.text}"));
-                                context.read<NewReservationBloc>().add(
-                                      CustomerDateAndTimeChange(
-                                          dateTime: dateTime),
-                                    );
-                                context.read<NewReservationBloc>().add(
-                                    CustomerPartySizeChange(
-                                        partySize: int.parse(_partySize.text)));
-                                context.read<NewReservationBloc>().add(
-                                    CustomerTableIDChange(
-                                        tableId: widget.table.id));
-                                context
-                                    .read<NewReservationBloc>()
-                                    .add(ReserveTable());
                                 return;
                               }
                               _color = Colors.redAccent;
@@ -242,21 +229,21 @@ class _BodyState extends State<Body> {
                 ),
               ],
             ),
-            BlocBuilder<NewReservationBloc, NewReservationState>(
+            BlocBuilder<UpdateReservationBloc, UpdateReservationState>(
               builder: (context, state) {
-                if (state.reservationState is SuccessfulNewReservationState) {
+                if (state.state is SuccessfulNewReservationState) {
                   return GestureDetector(
                     onTap: () => context.pop(),
-                    child: SuccessPromptUser(id: state.reservationId),
+                    child: SuccessUpdatePromptUser(id: widget.detail.id),
                   );
-                } else if (state.reservationState
+                } else if (state.state
                     is TriggerNewReservationState) {
                   return const Loading();
-                } else if (state.reservationState is FaildNewReservationState) {
+                } else if (state.state is FaildNewReservationState) {
                   return GestureDetector(
                     onTap: () => context.pop(),
                     child:
-                        ErrorPromptUser(error: state.reservationState.message),
+                        ErrorPromptUser(error: state.state.message),
                   );
                 } else {
                   return const SizedBox();

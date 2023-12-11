@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:restaurant/core/shared/constants.dart';
+import 'package:restaurant/data/repositories/delete_reservation_repo.dart';
+import 'package:restaurant/data/repositories/table_reservation_repository.dart';
 import 'package:restaurant/view/home/widget/card.dart';
 import 'package:restaurant/view/home/widget/manage_reservation.dart';
 
@@ -96,7 +99,14 @@ class _BodyState extends State<Body> {
                 ),
               ),
             ),
-            const ManageReservationWidget(),
+            MultiRepositoryProvider(
+              providers: [
+                RepositoryProvider(create: (context) => GetReservationRepo()),
+                RepositoryProvider(
+                    create: (context) => DeleteReservationRepo()),
+              ],
+              child: const ManageReservationWidget(),
+            ),
           ],
         ),
       ),

@@ -33,3 +33,21 @@ class ReservationIDChange extends TableEvents {
   final String id;
   ReservationIDChange({required this.id});
 }
+
+/// * [Delete] * [Reservation] * [Information]
+
+class DeleteReservationEvent extends TableEvents {
+  final String id;
+  DeleteReservationEvent({required this.id});
+}
+
+/// * [Update] * [Reservation] * [Information]
+
+class UpdateReservationEvent extends TableEvents {
+  final String id;
+  final String dateTime;
+  final String phone;
+  final int partySize;
+  UpdateReservationEvent(
+      {required this.id, required this.dateTime, required this.phone, required this.partySize});
+}

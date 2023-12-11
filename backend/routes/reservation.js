@@ -8,6 +8,8 @@ router.post('/new', reservationController.newReservation);
 // update reservation
 router.post('/get', reservationController.getReservation);
 // delete reservation
-router.post('/delete', (req, res)=>{});
+router.delete('/delete', reservationController.deleteReservation);
+// update reservation
+router.put('/update',reservationController.updateReservation);
 
 export default router;
