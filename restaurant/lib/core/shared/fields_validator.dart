@@ -43,7 +43,15 @@ class Validators {
       return 'Invalid entry';
     }
 
-    if (!_phone.hasMatch(value)) {
+    return null;
+  }
+
+  static String? reservationIdValidator(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Required Field';
+    }
+
+    if (_sqlI.hasMatch(value)) {
       return 'Invalid entry';
     }
 

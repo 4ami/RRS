@@ -71,9 +71,73 @@ const getReservation = async (req,res,next)=>{
         res.status(200).send(result);
     }catch(e){
         next(e);
-        console.log("Reservation-controller: \nMethod: modifyReservation-Error.\n" + e.message);
+        console.log("Reservation-controller: \nMethod: getReservation-Error.\n" + e.message);
     }
 };
 
-export default {newReservation, getReservation};
+const deleteReservation = async (req, res, next)=>{
+    try{
+        //validate comming data
+        const validData = await Validator.manageSchema.validateAsync(req.body)
+        .catch((e)=>{
+            let error = new Error("Invalid Data");
+            error.status = 422;
+            throw error;
+        });
+
+        //check if reservation exist
+        const reservation = await Reservation.findOne({where: {reservation_number: validData.reservation_id}});
+        if(!reservation){
+            let er = new Error("Reservation Does Not exist!");
+            er.status = 400;
+            throw er;
+        }
+
+        // delete the reservation 🤧
+        const destroy = await Reservation.destroy({where:{reservation_number: validData.reservation_id}})
+        if(!destroy){
+            let er = new Error("Unexpected Error!");
+            er.status = 500;
+            throw er;
+        }
+
+        res.status(200).send({response: "Reservation Deleted Successfully"});
+    }catch(e){
+        next(e);
+        console.log("Reservation-controller: \nMethod: deleteReservation-Error.\n" + e.message);
+    }
+}
+
+
+const updateReservation = async (req, res, next) => {
+    try{
+        //validate comming data
+        const validData = await Validator.updateReservation.validateAsync(req.body)
+        .catch((e)=>{
+            let error = new Error("Invalid Data");
+            error.status = 422;
+            throw error;
+        });
+
+        const exist = await Reservation.findOne({where: {reservation_number: validData.reservation_id}});
+        if(!exist){
+            let er = new Error("Reservation Does Not exist!");
+            er.status = 404;
+            throw er;
+        }
+
+        await Reservation.update(
+            {customer_phone: validData.customer_phone, reservation_date: validData.reservation_date, party_size: validData.party_size},
+            {where: {reservation_number: validData.reservation_id}}
+        );
+
+        res.status(202).send("Update Successfully");
+    }catch(e){
+        next(e);
+        console.log("Reservation-controller: \nMethod: updateeservation-Error.\n" + e.message);
+    }
+};
+
+
+export default {newReservation, getReservation, deleteReservation, updateReservation};
 

@@ -63,8 +63,16 @@ class GetReservationRepo extends TableReservationServices {
       /// * [fetchedData] will contain array of objects after decode it
       final Map<String, dynamic> fetchedData = jsonDecode(response.body);
       Tables table = Tables.fromJson(fetchedData["table"]);
-      NewReservation reservation = fetchedData["reservation"];
-
+      final Map<String, dynamic> reservationData = fetchedData["reservation"];
+      NewReservation reservation = NewReservation.fromJson(reservationData);
+      final String reservationStatus = reservationData["status"];
+      final String reservationId = reservationData["reservation_number"];
+      return ReservationDetail(
+        table: table,
+        reservation: reservation,
+        reservationStatus: reservationStatus,
+        id: reservationId
+      );
     }
 
     throw 'Unexpected Error!\nTry again.';

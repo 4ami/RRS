@@ -14,3 +14,9 @@ class ReserveTableAPI {
 class GetReservationAPI {
   static final String endPoint = '${dotenv.env["RESERVETABLEBASEENDPOINT"]}${dotenv.env["GETRESERVATIONENDPOINT"]}';
 }
+class DeleteReservationAPI {
+  static final String endPoint = '${dotenv.env["RESERVETABLEBASEENDPOINT"]}${dotenv.env["DELETERESERVATIONENDPOINT"]}';
+}
+class UpdateReservationAPI {
+  static final String endPoint = '${dotenv.env["RESERVETABLEBASEENDPOINT"]}${dotenv.env["UPDATERESERVATIONENDPOINT"]}';
+}

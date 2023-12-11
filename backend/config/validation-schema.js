@@ -24,4 +24,13 @@ const manageSchema = Joi.object({
     reservation_id: Joi.string().min(4).required()
 });
 
-export default { authSchema, authSchemaSignIN , reserveSchema, manageSchema};
+const updateReservation = Joi.object(
+    {
+        customer_phone: Joi.string().required(),
+        reservation_id: Joi.string().required(),
+        reservation_date: Joi.string().required(),
+        party_size: Joi.number().required()
+    }
+);
+
+export default { authSchema, authSchemaSignIN , reserveSchema, manageSchema, updateReservation};

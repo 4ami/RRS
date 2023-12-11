@@ -25,7 +25,7 @@ class SuccessfulGETTablesState extends TableReservationState {
 class FailedGETTablesState extends TableReservationState {
   final String exception;
   @override
-  String get message => exception.toString();
+  String get message => exception;
   const FailedGETTablesState({required this.exception});
 }
 
@@ -51,31 +51,88 @@ class SuccessfulNewReservationState extends TableReservationState {
 class FaildNewReservationState extends TableReservationState {
   final String exception;
   @override
-  String get message => exception.toString();
+  String get message => exception;
 
   const FaildNewReservationState({required this.exception});
 }
 
 /// * [CurrentReservationState] => all states related to get current reservation
 
-class InitialGetReservation extends TableReservationState{
+class InitialGetReservation extends TableReservationState {
   @override
   String get message => 'Initial state to get reservation';
   const InitialGetReservation();
 }
-class TriggerGETReservationState extends TableReservationState{
+
+class TriggerGETReservationState extends TableReservationState {
   @override
   String get message => 'Trigger state to get reservation';
   const TriggerGETReservationState();
 }
-class SuccessfulGETReservationState extends TableReservationState{
+
+class SuccessfulGETReservationState extends TableReservationState {
   @override
   String get message => 'GET reservation Ok!';
   const SuccessfulGETReservationState();
 }
-class FaildGETReservationState extends TableReservationState{
+
+class FaildGETReservationState extends TableReservationState {
   final String exception;
   @override
-  String get message => exception.toString();
+  String get message => exception;
   const FaildGETReservationState({required this.exception});
+}
+
+/// * [DeleteReservationState] => all states related to get current reservation
+
+class InitialDeleteReservation extends TableReservationState {
+  @override
+  String get message => 'Initial state to delete reservation';
+  const InitialDeleteReservation();
+}
+
+class TriggerDeleteReservation extends TableReservationState {
+  @override
+  String get message => 'Trigger state to delete reservation';
+  const TriggerDeleteReservation();
+}
+
+class SuccessDeleteReservation extends TableReservationState {
+  @override
+  String get message => 'Delete reservation successfully';
+  const SuccessDeleteReservation();
+}
+
+class FailedDeleteReservation extends TableReservationState {
+  final String exception;
+  @override
+  String get message => exception;
+  const FailedDeleteReservation({required this.exception});
+}
+
+/// * [UpdateState] => all states related to get current reservation
+
+class  InitialUpdateState extends TableReservationState {
+  @override
+  String get message => 'Initial state to update reservation';
+  const InitialUpdateState();
+}
+
+class TriggerUpdateState extends TableReservationState {
+  @override
+  String get message => 'Trigger state to update reservation';
+  const TriggerUpdateState();
+}
+
+class FieldUpdateState extends TableReservationState {
+  final String exception;
+  @override
+  String get message => exception;
+  const FieldUpdateState({required this.exception});
+}
+
+class SuccessUpdateState extends TableReservationState {
+  @override
+  String get message => 'update reservation successfully';
+  const SuccessUpdateState();
 }
