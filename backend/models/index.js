@@ -3,6 +3,7 @@ import { Sequelize, DataTypes } from 'sequelize';
 import UserModel from '../models/user-model.js';
 import MenuModel from '../models/menu-model.js';
 import TableModel from '../models/table-model.js';
+import ReservationModel from './reservation-model.js';
 
 //get all database information -> sequelize it
 const sequelize = new Sequelize(
@@ -45,6 +46,9 @@ database.menu = MenuModel(sequelize, DataTypes);
 
 //when operation need to tables table then it will use table-model
 database.tables = TableModel(sequelize, DataTypes);
+
+//when operation need to tables table then it will use table-model
+database.reservations = ReservationModel(sequelize, DataTypes);
 
 //disable force attribute means if table does not exist it will cause error rather than
 //create a table with that name

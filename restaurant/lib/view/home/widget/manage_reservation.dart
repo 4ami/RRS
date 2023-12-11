@@ -31,8 +31,10 @@ class _BodyState extends State<Body> {
               padding:
                   const EdgeInsets.symmetric(horizontal: 18.0, vertical: 25),
               child: TextFormField(
+                maxLength: 4,
                 controller: _reservation,
                 decoration: InputDecoration(
+                  counter: const Offstage(),
                   enabledBorder: OutlineInputBorder(
                     gapPadding: 15,
                     borderRadius: BorderRadius.circular(10),
@@ -54,7 +56,7 @@ class _BodyState extends State<Body> {
               child: FilledButton(
                 onPressed: () {
                   setState(() {
-                    x = 3;
+                    x = 1;
                   });
                 },
                 style: const ButtonStyle(
@@ -69,27 +71,19 @@ class _BodyState extends State<Body> {
                 ),
               ),
             ),
-            Expanded(
-              child: GridView.builder(
-                shrinkWrap: false,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 1,
-                  crossAxisSpacing: 20,
-                  mainAxisSpacing: 20,
-                ),
-                itemCount: x,
-                itemBuilder: (context, index) => Center(
-                  child: SizedBox(
-                    width: 300,
-                    height: 300,
-                    child: ColoredBox(
-                      color: Colors.white,
-                      child: Text('$index'),
-                    ),
-                  ),
-                ),
-              ),
-            )
+            const SizedBox(height: 30),
+            // Expanded(
+            //   child: GridView.builder(
+            //     shrinkWrap: false,
+            //     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            //       crossAxisCount: 1,
+            //       crossAxisSpacing: 20,
+            //       mainAxisSpacing: 20,
+            //     ),
+            //     itemCount: x,
+            //     itemBuilder: (context, index) => const ReservationInformation(),
+            //   ),
+            // )
           ],
         ),
       ),

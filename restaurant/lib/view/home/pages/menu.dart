@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:restaurant/core/shared/constants.dart';
+import 'package:restaurant/core/shared/error_response.dart';
 import 'package:restaurant/core/shared/loading.dart';
-import 'package:restaurant/data/models/menu.dart';
 import 'package:restaurant/data/repositories/menu_repository.dart';
 import 'package:restaurant/view/home/bloc/menu/browse_menu_bloc.dart';
 import 'package:restaurant/view/home/bloc/menu/browse_menu_state.dart';
@@ -28,8 +27,6 @@ class Menu extends StatelessWidget {
     );
   }
 }
-
-Future<List<MenuItem>> test() async => [];
 
 class Body extends StatefulWidget {
   const Body({super.key});
@@ -76,26 +73,7 @@ class _BodyState extends State<Body> {
         body: BlocBuilder<BrowseMenuBloc, BrowseMenuState>(
           builder: (context, state) {
             if (state.menuState is FailedBrowseMenuState) {
-              return Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Image(
-                      image: AssetImage(errorIllustration),
-                      height: 150,
-                    ),
-                    Text(
-                      "Oops! Something goes wrong 🤔.\nTry again later.",
-                      style: Theme.of(context)
-                          .textTheme
-                          .headlineSmall!
-                          .copyWith(
-                              color: const Color(0xffF47C7C), fontSize: 25),
-                      textAlign: TextAlign.center,
-                    )
-                  ],
-                ),
-              );
+              return ErrorResponse(message: state.menuState.stateMessage);
             } else if (state.menuState is SuccessfulBrowseMenuState) {
               return TabBarView(
                 children: [

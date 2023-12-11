@@ -12,7 +12,7 @@ class Loading extends StatelessWidget {
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
         child: const CircularProgressIndicator(
-          color: Color(0xffEF9F9F),
+          color: Color(0xff159895),
           strokeAlign: 12,
           strokeWidth: 6,
           strokeCap: StrokeCap.round,

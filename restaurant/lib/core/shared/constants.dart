@@ -7,3 +7,4 @@ const String insideTable = 'assets/image/inside_table.png';
 const String outsideTable = 'assets/image/outside_table.png';
 const String logo = 'assets/image/logo1.png';
 const String errorIllustration = 'assets/image/error.png';
+const String phoneCode = 'assets/image/sa_country_phone_code.png';
